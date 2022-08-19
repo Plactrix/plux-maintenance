@@ -23,9 +23,18 @@ RegisterCommand("maintenancemode", function(source, args)
 end)
 
 CreateThread(function()
+    Wait(100)
     TriggerClientEvent('chat:addSuggestion', -1, '/maintenancemode', 'Toggles the server maintenance mode', {
         { name="Toggle", help="true or false" }
     })
+	PerformHttpRequest("https://raw.githubusercontent.com/Plactrix/versions/main/maintenancemode.json", function(code, res, headers)
+		if code == 200 then
+			local data = json.decode(res)
+            if data["version"] ~= GetResourceMetadata(GetCurrentResourceName(), 'version') then
+				print("^1Notice^7: There is an update available for ^3plux-maintenancemode^7. Please head to our github page to update it - https://github.com/Plactrix/plux-maintenance")
+			end
+		end
+	end, 'GET')
 end)
 
 AddEventHandler("playerConnecting", function(_, _, deferrals)
