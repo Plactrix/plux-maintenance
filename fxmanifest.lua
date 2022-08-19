@@ -3,7 +3,7 @@ game "gta5"
 
 author "Plux Modifications || https://discord.gg/DEQ95eVmQ3"
 description "A simple maintenance mode script"
-version "1.0.0"
+version "1.0.1"
 lua54 "yes"
 
 server_scripts {
