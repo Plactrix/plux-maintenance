@@ -30,7 +30,7 @@ end)
 
 AddEventHandler("playerConnecting", function(_, _, deferrals)
     local src = source
-    deferals.defer()
+    deferrals.defer()
     Wait(0)
     
     if maintenancemode == "true" then
