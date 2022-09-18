@@ -42,7 +42,7 @@ AddEventHandler("playerConnecting", function(_, _, deferrals)
     deferrals.defer()
     Wait(0)
     
-    if maintenancemode == "true" then
+    if maintenancemode == "true" and not IsPlayerAceAllowed(src, Config.BypassPermission) then
         deferrals.done(Config.MaintenanceModeMsg)
         print("[" .. src .. "] Connection rejected - Server maintenance mode is enabled")
     else
