@@ -1,6 +1,6 @@
 local maintenancemode = false
 
-RegisterCommand("maintenancemode", function(source, args)
+RegisterCommand(Config.Command, function(source, args)
     if source == 0 then
         if args[1] == "true" or args[1] == "false" then
             maintenancemode = args[1]
@@ -12,29 +12,26 @@ RegisterCommand("maintenancemode", function(source, args)
         if IsPlayerAceAllowed(source, Config.Permission) then
             if args[1] == "true" or args[1] == "false" then
                 maintenancemode = args[1]
-                TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Set maintenance mode to: ' .. args[1], length = 2500, style = { ['color'] = '#ffffff' } })
+                TriggerClientEvent("mythic_notify:client:SendAlert", source, { type = "inform", text = "Set maintenance mode to: " .. args[1], length = 2500, style = { ["color"] = "#ffffff" } })
             else
-                TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'Invalid arguments. Please use /maintenancemode [toggle]', length = 2500, style = { ['color'] = '#ffffff' } })
+                TriggerClientEvent("mythic_notify:client:SendAlert", source, { type = "error", text = "Invalid arguments. Please use /maintenancemode [toggle]", length = 2500, style = { ["color"] = "#ffffff" } })
             end
         else
-            TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'ERROR: No Permission.', length = 2500, style = { ['color'] = '#ffffff' } })
+            TriggerClientEvent("mythic_notify:client:SendAlert", source, { type = "error", text = "ERROR: No Permission.", length = 2500, style = { ["color"] = "#ffffff" } })
         end
     end
 end)
 
 CreateThread(function()
     Wait(100)
-    TriggerClientEvent('chat:addSuggestion', -1, '/maintenancemode', 'Toggles the server maintenance mode', {
-        { name="Toggle", help="true or false" }
-    })
 	PerformHttpRequest("https://raw.githubusercontent.com/Plactrix/versions/main/maintenancemode.json", function(code, res, headers)
 		if code == 200 then
 			local data = json.decode(res)
-            if data["version"] ~= GetResourceMetadata(GetCurrentResourceName(), 'version') then
+            if data["version"] ~= GetResourceMetadata(GetCurrentResourceName(), "version") then
 				print("^1Notice^7: There is an update available for ^3plux-maintenancemode^7. Please head to our github page to update it - https://github.com/Plactrix/plux-maintenance")
 			end
 		end
-	end, 'GET')
+	end, "GET")
 end)
 
 AddEventHandler("playerConnecting", function(_, _, deferrals)
